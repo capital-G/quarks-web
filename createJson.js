@@ -86,7 +86,7 @@ async function main() {
     // const result = await getQuark("Maths", "https://github.com/spluta/Maths");
     // const result = await extractQuarkInfo("maths", "repos/Maths/Maths.quark");
     // console.log(result);
-    fs.writeFileSync("quarks.json", JSON.stringify(result, null, 2));
+    fs.writeFileSync("src/assets/quarks.json", JSON.stringify(result, null, 2));
 }
 
 main();
