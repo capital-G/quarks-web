@@ -8,6 +8,7 @@ on:
 jobs:
   deploy-book:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
     - uses: actions/checkout@v2
 
@@ -15,6 +16,9 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 14
+    
+    - name: Build JSON
+      run: ./build_json_in_docker.sh
     
     - name: Install dependencies
       run: npm install
