@@ -14,10 +14,15 @@
       </v-col>
     </v-row>
 
-    <v-container fluid>
-      <v-row dense>
-        <v-col v-for="quark in filteredQuarks" :key="quark.quarkName" :cols="4">
-          <v-card class="mx-auto my-12" max-width="374">
+    <v-container fluid class="d-flex align-content-start flex-wrap">
+      <v-row wrap>
+        <v-col
+        v-for="quark in filteredQuarks"
+        :key="quark.quarkName"
+        md="6"
+        lg="4"
+        >
+          <v-card class="mx-auto my-8" max-width="370" min-width="370">
             <v-card-title>{{ quark.name || quark.quarkName }}</v-card-title>
 
             <v-card-text>
