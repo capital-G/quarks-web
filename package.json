@@ -12,6 +12,7 @@
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "glob": "^8.0.3",
+    "moment": "^2.29.3",
     "roboto-fontface": "*",
     "shelljs": "^0.8.5",
     "vue": "^3.2.13",

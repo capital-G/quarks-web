@@ -16,16 +16,16 @@ const quarksToSkip = [
 
 shell.config.silent = true;
 
-async function extractQuarkInfo(quarkName, quarkFile, quarkRepo) {
-    j = {"quarkName": quarkName, "quarkRepo": quarkRepo}
-    if(quarksToSkip.includes(quarkName)) {
+async function extractQuarkInfo(quarkName, quarkFile) {
+    j = {}
+    if (quarksToSkip.includes(quarkName)) {
         console.log(`Skip Quark ${quarkName}`);
         return j;
     }
     await execFile(`QUARK_FILE=${quarkFile} ${sclang} -i foo quarkToJson.scd`, [], {
         // "env": procEnv,
         "shell": true,
-        "timeout": 20*1000,
+        "timeout": 20 * 1000,
     }).catch((err) => {
         console.log(`Error on extracting Quark info from ${quarkFile}: ${err}`);
         return j;
@@ -36,34 +36,42 @@ async function extractQuarkInfo(quarkName, quarkFile, quarkRepo) {
     } catch (e) {
         console.log(`Could not parse JSON of ${quarkFile}`);
     }
-    j["quarkName"] = quarkName;
-    j["quarkRepo"] = quarkRepo;
     return j;
 }
 
 async function getQuark(quarkName, quarkRepo) {
     var quarkDir = `repos/${quarkName}`;
-    var quarkInfo = {};
-    quarkInfo["quarkName"] = quarkName;
-    quarkInfo["repoUrl"] = quarkRepo;
+    var quarkInfo = {
+        "quarkName": quarkName,
+        "quarkRepo": quarkRepo,
+    };
 
     var process = shell.exec(`cd repos && git clone --depth 1 ${quarkRepo} ${quarkName}`);
-    if(process.code!=0) {
+    if (process.code != 0) {
         // console.log(`Repo ${quarkName} already available? Try pull`);
         var pullProcess = shell.exec(`cd repos/${quarkName} && git pull`);
-        if(pullProcess.code!=0) {
+        if (pullProcess.code != 0) {
             console.log(`Could not retrieve info from repo ${quarkName}`);
             return quarkInfo;
         }
     }
+
+    // get latest commit date
+    var dateProc = shell.exec(`cd repos/${quarkName} && echo $(git log -1 --format="%at")`);
+    quarkInfo["lastGitCommitDate"] = parseInt(dateProc.stdout);
+
     var quarkFiles = glob.sync(quarkDir + '/*.quark');
-    if(quarkFiles.length == 0) {
+    if (quarkFiles.length == 0) {
         console.log(`Did not found a quark file for ${quarkName} in ${quarkDir}`);
         return quarkInfo;
     }
     var quarkFile = quarkFiles[0];
     console.log(`Found quark file ${quarkFile}`);
-    return await extractQuarkInfo(quarkName, quarkFile, quarkRepo);
+    var extractedQuarkInfo = await extractQuarkInfo(quarkName, quarkFile, quarkRepo);
+    return {
+        ...extractedQuarkInfo,
+        ...quarkInfo
+    };
 }
 
 async function getQuarksList() {
@@ -74,8 +82,6 @@ async function getQuarksList() {
         // remove also any kind of tags
         var quarkRepo = l.split("=")[1].trim().split("@")[0];
         var r = await getQuark(quarkName, quarkRepo);
-        r["quarkName"] = quarkName;
-        r["quarkRepo"] = quarkRepo;
         return r;
     }, 4));
 }

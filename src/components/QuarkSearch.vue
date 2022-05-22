@@ -24,16 +24,22 @@
         >
           <v-card class="mx-auto my-8" max-width="370" min-width="370">
             <v-card-title>{{ quark.name || quark.quarkName }}</v-card-title>
-
+            
             <v-card-text>
-              <v-row align="center" class="mx-0">
+              <v-row align="center" class="mx-0 mb-2">
                 <div class="grey--text ms-4">
-                  {{ quark.version }} \\ {{ quark.license }}
+                  Version: {{ quark.version || "?" }}<br/>
+                  Last update: {{ moment(new Date(quark.lastGitCommitDate * 1000)).fromNow() }}
                 </div>
               </v-row>
 
-              <div class="my-4 text-subtitle-2">{{ quark.author }}</div>
-              <div class="my-4 text-subtitle-3">{{ quark.organization }}</div>
+              <div class="my-4 text-subtitle-2">{{ quark.author || quark.copyright }}
+                
+                <p v-if="quark.organization" class="font-italic"> @ {{ quark.organization }} </p>
+              </div>
+
+              <!-- </div>
+              <div class="my-4 text-subtitle-3"></div> -->
 
               <div>
                 {{ quark.summary }}
@@ -73,9 +79,14 @@
 
 <script>
 import quarksData from "../assets/quarks.json";
+import moment from 'moment';
 
 export default {
   name: "QuarkSearch",
+
+  created: function () {
+    this.moment = moment;
+  },
 
   data: () => ({
     searchText: "",
