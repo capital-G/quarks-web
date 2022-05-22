@@ -18,7 +18,7 @@
       <v-row dense>
         <v-col v-for="quark in filteredQuarks" :key="quark.quarkName" :cols="4">
           <v-card class="mx-auto my-12" max-width="374">
-            <v-card-title>{{ quark.name }}</v-card-title>
+            <v-card-title>{{ quark.name || quark.quarkName }}</v-card-title>
 
             <v-card-text>
               <v-row align="center" class="mx-0">
