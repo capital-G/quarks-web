@@ -96,8 +96,8 @@ export default {
   computed: {
     filteredQuarks() {
       if (this.searchText.length === 0) {
-        console.log("Search term");
-        return quarksData;
+        console.log(quarksData);
+        return quarksData.sort((a, b) => b.lastGitCommitDate - a.lastGitCommitDate);
       }
       var qs = new Set();
       this.searchText.split(" ").forEach((searchTerm) => {
