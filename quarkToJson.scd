@@ -7,8 +7,8 @@ q[\toJson] = {|v|
 	{v.class == Association} { q[\toJson].value(v.key) }
 	{v===true} { "true" }
 	{v===false} { "false" }
-	{v.isString} { "\"%\"".format(v.asString.replace("\"", "\\\"")).replace("\n", "\\n").replace("\t", " ") }
-	{v.class == Symbol } { "\"%\"".format(v.replace("\"", "\\\"")).replace("\n", "\\n") }
+	{v.isString} { "\"%\"".format(v.replace("\"", "\\\"")).replace("\n", "\\n").replace("\t", " ") }
+	{v.class == Symbol } { "\"%\"".format(v.asString.replace("\"", "\\\"")).replace("\n", "\\n") }
 	{v.isNil} {val = "null"}
 	{v.isFloat} { "%".format(v)}
 	{v.isInteger} { "%".format(v)}
