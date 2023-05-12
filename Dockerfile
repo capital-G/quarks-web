@@ -61,6 +61,6 @@ COPY --from=builder /home/quark-web/src/assets/quarks.json /home/quark-web/src/a
 
 RUN npm run build
 
-EXPOSE 8080
+EXPOSE 3000
 
-CMD [ "npm", "run", "serve" ]
+CMD [ "npm", "run", "dev" ]
