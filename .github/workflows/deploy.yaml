@@ -29,6 +29,13 @@ jobs:
     - name: Build website
       run: make build
 
+    - uses: actions/upload-artifact@v2
+      if: success() || failure()
+      with:
+        name: website
+        path: |
+          dist/
+
     - name: GitHub Pages action
       if: success() && github.ref == 'refs/heads/main' # only deploy main
       uses: peaceiris/actions-gh-pages@v3.6.1
