@@ -1,6 +1,7 @@
 name: deploy
 
 on:
+  pull_request:
   push:
     branches:
     - main
@@ -29,6 +30,7 @@ jobs:
       run: make build
 
     - name: GitHub Pages action
+      if: success() && github.ref == 'refs/heads/main' # only deploy main
       uses: peaceiris/actions-gh-pages@v3.6.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
