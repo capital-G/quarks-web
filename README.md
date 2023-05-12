@@ -6,7 +6,7 @@ Quarks Web is a website in which SuperCollider extensions (called Quarks) from t
 
 ### Website development
 
-Install node, check out the repo and run
+Install Node.js (tested with version 18), check out the repo and run
 
 ```shell
 npm install
