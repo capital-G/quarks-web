@@ -20,13 +20,13 @@ jobs:
         node-version: 14
     
     - name: Build JSON
-      run: ./build_json_in_docker.sh
+      run: make build_index_docker
     
     - name: Install dependencies
-      run: npm install
+      run: npm ci
     
     - name: Build website
-      run: npm run build
+      run: make build
 
     - name: GitHub Pages action
       uses: peaceiris/actions-gh-pages@v3.6.1

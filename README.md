@@ -10,7 +10,7 @@ Install node, check out the repo and run
 
 ```shell
 npm install
-npm run serve
+npm run dev
 ```
 
 ### Update Quarks data
@@ -24,7 +24,7 @@ Be aware that we are executing a lot of quark files on your local machine, makin
 Install node and all necessary dependencies for the script via
 
 ```shell
-npm run install
+npm install
 ```
 
 After this make sure you have `sclang` available in your PATH variable.
@@ -37,7 +37,7 @@ export SCLANG_PATH=/Applications/SuperCollider.app/Contents/MacOS/sclang
 After this run in the same shell the command
 
 ```shell
-node createJson.js
+make build_index
 ```
 
 which will download or update all repos and build the updated JSON file into `src/assets/quarks.json`.
@@ -47,7 +47,7 @@ which will download or update all repos and build the updated JSON file into `sr
 It is also possible to run the build process within a docker container by running
 
 ```shell
-./build_json_in_docker.sh
+make build_index_docker
 ```
 
 which will replace the file `/src/assets/quarks.json`.

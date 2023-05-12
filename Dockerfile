@@ -44,7 +44,7 @@ ADD . .
 
 RUN mkdir -p /home/quark-web/repos
 
-RUN node createJson.js
+RUN make build_index
 
 FROM node:14-alpine
 
