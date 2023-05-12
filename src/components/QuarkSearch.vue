@@ -3,7 +3,7 @@
     <v-row class="text-center">
       <v-col cols="12">
         <v-img
-          :src="require('../assets/logo.svg')"
+          :src="logoImageUrl"
           class="my-3"
           contain
           height="200"
@@ -63,8 +63,8 @@
             </v-card-text>
 
             <v-card-actions>
-              <a v-bind:href="quark.url">
-                <v-btn color="deep-purple lighten-2" text :disabled="!(url in quark)"> Website </v-btn>
+              <a v-if="quark.url" :href="quark.url">
+                <v-btn color="deep-purple lighten-2" text> Website </v-btn>
               </a>
               <a v-bind:href="quark.quarkRepo">
                 <v-btn color="deep-purple lighten-2" text> Repository </v-btn>
@@ -86,6 +86,7 @@ export default {
 
   created: function () {
     this.moment = moment;
+    this.logoImageUrl = new URL(`/logo.svg`, import.meta.url).href
   },
 
   data: () => ({
@@ -96,7 +97,7 @@ export default {
   computed: {
     filteredQuarks() {
       if (this.searchText.length === 0) {
-        console.log(quarksData);
+        // console.log(quarksData);
         return quarksData.sort((a, b) => b.lastGitCommitDate - a.lastGitCommitDate);
       }
       var qs = new Set();
