@@ -1,4 +1,4 @@
-FROM node:14-bullseye AS builder
+FROM node:18-bullseye AS builder
 
 WORKDIR /home/quark-web
 
@@ -44,9 +44,9 @@ ADD . .
 
 RUN mkdir -p /home/quark-web/repos
 
-RUN node createJson.js
+RUN make build_index
 
-FROM node:14-alpine
+FROM node:18-alpine
 
 WORKDIR /home/quark-web
 
@@ -61,6 +61,6 @@ COPY --from=builder /home/quark-web/src/assets/quarks.json /home/quark-web/src/a
 
 RUN npm run build
 
-EXPOSE 8080
+EXPOSE 3000
 
-CMD [ "npm", "run", "serve" ]
+CMD [ "npm", "run", "dev" ]
